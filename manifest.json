@@ -1,6 +1,9 @@
 {
-  "name": "E-Commerce Price Comparator",
-  "description": "Tool to compare prices between e-commerce platforms",
-  "version": "0.1.0",
-  "manifest_version": 3
+	"name": "E-Commerce Price Comparator",
+	"description": "Tool to compare prices between e-commerce platforms",
+	"version": "0.1.0",
+	"manifest_version": 3,
+	"action": {
+		"default_popup": "popup.html"
+	}
 }
