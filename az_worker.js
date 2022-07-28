@@ -5,9 +5,11 @@ const init = () => {
 		.innerHTML.substring(0, 50)
 		.trim();
 	site = "amazon";
-	price = document
-		.querySelector(".apexPriceToPay .a-offscreen")
-		.innerHTML.substring(1)
+	price = (
+		document.querySelector(".apexPriceToPay .a-offscreen") ??
+		document.querySelector(".priceToPay .a-offscreen")
+	).innerHTML
+		.substring(1)
 		.replace(/,/g, "");
 
 	url = document.location.origin + document.location.pathname;
