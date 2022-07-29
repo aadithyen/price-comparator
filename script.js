@@ -1,3 +1,53 @@
+const drawCard = (store, price, url, time) => {
+	var card = document.createElement("a");
+	var title = document.createElement("p");
+	card.classList.add("card");
+	title.classList.add("store-name");
+	title.appendChild(document.createTextNode(store));
+	var priceText = document.createElement("p");
+	priceText.appendChild(document.createTextNode(price.toString()));
+	priceText.classList.add("price");
+	var timeText = document.createElement("p");
+	var actualTime = new Date(time * 1000);
+	timeText.appendChild(
+		document.createTextNode(
+			"Recorded at " + actualTime.getDate() + "/" + actualTime.getMonth()
+		)
+	);
+	timeText.classList.add("time");
+	card.appendChild(title);
+	card.appendChild(priceText);
+	card.appendChild(timeText);
+	card.setAttribute("href", url);
+	card.setAttribute("target", "_blank");
+	card.setAttribute("rel", "noopener");
+	return card;
+};
+let resp;
+const getEntries = async () => {
+	chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+		var activeTab = tabs[0];
+		chrome.tabs.sendMessage(
+			activeTab.id,
+			{ type: "getPrice" },
+			function (response) {
+				const comparisonContainer = document.querySelector(".comparison");
+				response.body.rows.forEach((element) => {
+					comparisonContainer.appendChild(
+						drawCard(
+							element.site,
+							element.price,
+							element.url,
+							element.timestamp
+						)
+					);
+				});
+			}
+		);
+	});
+};
+getEntries();
+
 const ctx = document.getElementById("price-chart").getContext("2d");
 const myChart = new Chart(ctx, {
 	type: "line",
